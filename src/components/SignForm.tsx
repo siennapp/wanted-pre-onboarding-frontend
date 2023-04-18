@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import api from "../api/api";
+import { signInApi, signUpApi } from "../api/authApi";
 
 
 
@@ -21,27 +21,14 @@ function SignForm ({formType}:{formType:string}) {
         event.preventDefault();
         
         if (formType === 'signup' ){
-            api.post('/auth/signup',userInfo) 
-            .then((res) => {
-                res.status === 201 && navigate(`/signin`);
-            })
-            .catch((error) => {
-                console.log(error);
+            signUpApi(userInfo).then((res)=> {
+                res?.status === 201 && navigate('/signin');
             });
-
         } else{
-
-            api.post('/auth/signin',userInfo)
-            .then((res) => {
-                localStorage.setItem('accessToken', res.data.access_token );
-                res.status === 200 && navigate('/todo', { replace: true });
+            signInApi(userInfo).then((res)=>{
+                res?.status === 200 && navigate('/todo', { replace: true });
             })
-            .catch((error) => {
-                console.log(error);
-            })
-           
         }
-       
     }
 
     const validate = (values:any) => {
