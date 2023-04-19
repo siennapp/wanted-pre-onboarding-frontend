@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { signInApi, signUpApi } from "../api/authApi";
@@ -9,12 +10,17 @@ function SignForm ({formType}:{formType:string}) {
     const navigate = useNavigate();
 
     const [userInfo, setUserInfo] = useState({ email:'', password:'' })
-    const [isDisabled, setDisabled ] = useState(true);
+    const [isDisabled, setDisabled] = useState(true);
+    const [isValid, setValid ] = useState({
+        email: false,
+        password: false,
+        all: true,
+    });
 
     const onChange = (event: React.FormEvent<HTMLInputElement>) => {
-        const{type ,value} = event.currentTarget;
+        const{ type, value } = event.currentTarget;
         setUserInfo({...userInfo,[type]:value });
-        validate(userInfo);
+        setDisabled( !validate( type, value ));
     }
 
     const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -31,8 +37,16 @@ function SignForm ({formType}:{formType:string}) {
         }
     }
 
-    const validate = (values:any) => {
-        values.email.includes('@') && values.password.length >= 8 ? setDisabled(false) : setDisabled(true);
+    const validate = ( type: string, value: string) => {
+        if( type === 'email'){
+            value.includes('@') ? setValid({ ...isValid, email:true}) : setValid({ ...isValid, email:false}) ;
+        }
+        if( type === 'password'){
+            value.length >= 8 ? setValid({ ...isValid, password:true}) : setValid({ ...isValid, password:false});
+        }
+
+        if(isValid.email && isValid.password ) return true;
+        else return false;
     }
     return(
         <div className="container">
@@ -43,18 +57,20 @@ function SignForm ({formType}:{formType:string}) {
                         <input 
                             type="email"
                             data-testid="email-input"
-                            placeholder="@를 포함한 이메일주소"
+                            placeholder="이메일주소"
                             value={userInfo.email}
                             onChange={onChange}
-                            />
+                        />
+                        {!isValid.email && userInfo.email && <span className="validate-text">이메일주소는 @를 포함하여야합니다.</span>}
                         <input 
                             type="password"
                             autoComplete="off"
                             data-testid="password-input" 
-                            placeholder="8자리 이상 비밀번호"
+                            placeholder="비밀번호"
                             value={userInfo.password}
                             onChange={onChange}
-                            />
+                        />
+                        {!isValid.password && userInfo.password && <span className="validate-text">비밀번호는 8자 이상이어야합니다.</span>}
                         {formType === 'signup'? (
                             <button className="submit" data-testid="signup-button" disabled={isDisabled}>회원가입</button>
                         ):(

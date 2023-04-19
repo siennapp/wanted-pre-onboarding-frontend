@@ -156,6 +156,16 @@ const GlobalStyle = createGlobalStyle`
             cursor: auto;
         }
     }
+    .validate-text{
+        display: block;
+        width: 100%; 
+        color: red; 
+        font-size: .75em;
+        margin-bottom: 10px; 
+        text-align: left; 
+        position: relative; 
+        top: -5px; 
+    }
     form{
         display: flex;
         margin: 0; 
