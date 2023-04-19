@@ -12,10 +12,10 @@
 
 ## 배포 링크
 
-[https://todo-task-six.vercel.app/signup](https://todo-task-six.vercel.app/signup)
+[https://todo-lilac-ten.vercel.app/signup](https://todo-lilac-ten.vercel.app/signup)
 
 - 회원가입, 로그인 이후 투두 리스트 이용이 가능합니다.
-- `"/"`로 접속시 토큰이 있는 경우 `"/todo"`, 없는 경우 `"/signin"` 경로로 리다이렉트 됩니다.
+- `"/"`경로로 접속시 토큰이 있는 경우 `"/todo"`, 없는 경우 `"/signin"` 경로로 리다이렉트 됩니다.
 
 ## 데모영상
 
