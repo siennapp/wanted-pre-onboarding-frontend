@@ -1,14 +1,16 @@
+import React from "react";
 import { AiOutlineEdit, AiOutlineDelete, AiOutlineCheck, AiOutlineClose, AiFillEdit } from "react-icons/ai"
 import { useEffect, useState } from "react";
 import { todoProps } from "../types/todo.types";
 
-interface dataProps {
+
+interface todoListProps {
     data:todoProps,
     onDelete: (id: number) => void;
     onUpdate: (id: number, newTodo: any) => void;
 }
 
-function TodoItem({data, onDelete, onUpdate}: dataProps){
+function TodoItem({data, onDelete, onUpdate}: todoListProps){
     const [isComplete, setComplete] = useState(data?.isCompleted);
     const [newText, setNewText ] = useState(data?.todo);
     
@@ -21,28 +23,34 @@ function TodoItem({data, onDelete, onUpdate}: dataProps){
     const onDeleteHandler = () =>{
         onDelete(data.id);
     }
-    const onUpdateHandler = (todo:{
+    const onUpdateHandler = async (todo:{
         todo: string;
         isCompleted: boolean;
     }) =>{
-        onUpdate(data.id, todo);
+        const res = await onUpdate(data.id, todo);
+        return res; 
     }
   
     useEffect(()=>{
         if(isSubmit){
             const newTodos= { todo: newText, isCompleted:isComplete }
-            onUpdateHandler(newTodos);
-            setSubmit(false);
-            setEdit(false);
+            onUpdateHandler(newTodos)
+            .then(()=>{
+                setSubmit(false);
+                setTimeout(function(){
+                    setEdit(false);
+                },100);
+            })
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[isSubmit]);
-
+   
   
     const onTodoEdit = (event:React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if(newText === '') return false; 
         setSubmit(true);
+        
     }
     const onTodoChange = (event: React.FormEvent<HTMLInputElement>) => {
         const{value} = event.currentTarget;
@@ -57,7 +65,7 @@ function TodoItem({data, onDelete, onUpdate}: dataProps){
         setEdit(true);
     }
     const onCancel= () => {
-        setNewText (data.todo)
+        setNewText(data.todo);
         setEdit(false);
     }
    
@@ -72,7 +80,7 @@ function TodoItem({data, onDelete, onUpdate}: dataProps){
              <label htmlFor={`check${data.id}`}><AiOutlineCheck size={12}/></label>
             {isEdit?(
                 <div>
-                    <form onSubmit={onTodoEdit}>
+                    <form onSubmit={onTodoEdit} autoComplete="off">
                         <input 
                             type="text" 
                             name="todo" 

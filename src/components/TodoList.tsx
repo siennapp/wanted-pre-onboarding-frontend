@@ -1,3 +1,4 @@
+import React from "react";
 import { deleteTodoApi, updateTodosApi } from "../api/todoApi";
 import { todoProps } from "../types/todo.types";
 import TodoItem from "./TodoItem";
@@ -11,8 +12,9 @@ function TodoList({ todos , setFetching }:{
         deleteTodoApi(id).then(()=> setFetching(true));
     }
     const onUpdate = ( id: number, newTodo: any) => {
-        updateTodosApi(id,newTodo).then(()=>{
+        updateTodosApi(id,newTodo).then((res)=>{
             setFetching(true);
+            return res;
         })
     }
 
