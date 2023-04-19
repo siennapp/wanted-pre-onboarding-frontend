@@ -95,7 +95,7 @@ const GlobalStyle = createGlobalStyle`
         border-radius: 5px; 
         box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.02);
         position: relative; 
-        width: 400px;
+        width: 420px;
     }
    
     h1{
@@ -115,7 +115,6 @@ const GlobalStyle = createGlobalStyle`
         box-sizing: border-box; 
         color: #333; 
         font-size: 1rem;
-       // background: #efefef; 
         &::placeholder{
             color: #c0c0c0; 
         }
