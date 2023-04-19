@@ -1,14 +1,10 @@
 import React from "react";
 import { AiOutlineEdit, AiOutlineDelete, AiOutlineCheck, AiOutlineClose, AiFillEdit } from "react-icons/ai"
 import { useEffect, useState } from "react";
-import { todoProps } from "../types/todo.types";
+import { todoListProps } from "../types/todo.types";
 
 
-interface todoListProps {
-    data:todoProps,
-    onDelete: (id: number) => void;
-    onUpdate: (id: number, newTodo: any) => void;
-}
+
 
 function TodoItem({data, onDelete, onUpdate}: todoListProps){
     const [isComplete, setComplete] = useState(data?.isCompleted);

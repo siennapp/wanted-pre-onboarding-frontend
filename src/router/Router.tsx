@@ -1,18 +1,16 @@
+import React from "react";
 import { BrowserRouter, Navigate, Outlet, Route, Routes } from "react-router-dom";
 import SignIn from "../pages/sign/SignIn";
 import SignUp from "../pages/sign/SignUp";
 import Todo from "../pages/todo";
 
-interface protectedRouterProps {
-    redirectPath: string; 
-}
 
 function Router() {
-    const ProtectedRoute = ({redirectPath}:protectedRouterProps) => {
+    const ProtectedRoute = ({redirectPath}:{redirectPath: string}) => {
         const isAuth = localStorage.getItem("accessToken") !== null;
         return isAuth ? <Outlet />: <Navigate to={redirectPath} replace />;
     };
-    const AuthRoute = ({redirectPath}:protectedRouterProps) => {
+    const AuthRoute = ({redirectPath}:{redirectPath: string}) => {
         const isAuth = localStorage.getItem("accessToken") !== null;
         return isAuth ? <Navigate to={redirectPath} replace /> : <Outlet />;
     };
